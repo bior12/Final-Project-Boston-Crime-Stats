@@ -19,12 +19,16 @@ library(readxl)
 ```
 
 ```{r}
-#creating the dataset
+#creating the datasets
 boston_crime_statistics <- read_excel("crime.xlsx")
+weather_data <- read_csv("weather data.csv")
+weather_data <- weather_data%>%
+  select(NAME,LATITUDE,LONGITUDE,DATE,PRCP, TAVG,SNOW)
 ```
 
 ```{r}
 boston_crime_statistics
+weather_data
 ```
 
 ```{r}
@@ -55,9 +59,10 @@ boston_crime_statistics%>%
 ```
 ```{r}
 small_data <- boston_crime_statistics%>%
-  head(2000)
+  group_by(OFFENSE_CODE)%>%
+  summarise(total = n())
 ```
 ```{r}
-ggplot(data=small_data,aes(x=HOUR,y=OFFENSE_CODE))+geom_point()+facet_wrap(~DISTRICT,ncol=4)
+ggplot(data=small_data,aes(x=OFFENSE_CODE,y=total))+geom_point()
 ```
 
