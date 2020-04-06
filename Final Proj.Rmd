@@ -10,10 +10,15 @@ output: html_notebook
 ```{r}
 # clean up workspace environment
 rm(list = ls())
+
 # all packages used for the assignment
+library(mosaicData)
 library(mosaic)
-library(tidyverse)
 library(DataComputing)
+library(tidyverse)
+library(forcats)
+library(lubridate)
+library(readxl)
 ```
 
 ### Research Question
@@ -49,3 +54,67 @@ An incident, over 300,000.
 ### Plots, Summary Statistics, and Observations
 
 ### TWO Data Sources (at least)
+
+#DATA
+
+```{r}
+#creating the datasets
+boston_crime_statistics <- read_excel("crime.xlsx")
+weather_data <- read_csv("weather data.csv")
+weather_data <- weather_data%>%
+  select(NAME,LATITUDE,LONGITUDE,DATE,PRCP, TAVG,SNOW)
+```
+
+```{r}
+boston_crime_statistics
+```
+```{r}
+weather_data
+```
+```{r}
+all_stats <- cbind(boston_crime_statistics,weather_data)
+```
+
+```{r}
+date_of_incident <- boston_crime_statistics%>%
+  select(INCIDENT_NUMBER,OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
+  arrange(OCCURRED_ON_DATE)
+loaction_of_incident <- boston_crime_statistics%>%
+  select(INCIDENT_NUMBER,OCCURRED_ON_DATE,UCR_PART,STREET,Lat,Long, Location)%>%
+  arrange(OCCURRED_ON_DATE)
+```
+
+```{r}
+date_of_incident
+```
+```{r}
+loaction_of_incident
+```
+
+```{r}
+#date ranges
+first_date<-boston_crime_statistics%>%
+  select(OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
+  arrange(OCCURRED_ON_DATE)%>%
+  head(1)
+
+last_date<-boston_crime_statistics%>%
+  select(OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
+  arrange(OCCURRED_ON_DATE)%>%
+  tail(1)
+first_date
+last_date
+```
+
+```{r}
+#number of day over which the data is recorded
+last_date[1, "OCCURRED_ON_DATE"]-first_date[1, "OCCURRED_ON_DATE"]
+```
+```{r}
+small_data <- boston_crime_statistics%>%
+  group_by(OFFENSE_CODE)%>%
+  summarise(total = n())
+```
+```{r}
+ggplot(data=small_data,aes(x=OFFENSE_CODE,y=total))+geom_point()
+```

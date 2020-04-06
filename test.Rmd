@@ -16,7 +16,18 @@ library(tidyverse)
 library(forcats)
 library(lubridate)
 library(readxl)
+
 ```
+
+Tre Butler, Phil Saroka, Jessica Schick
+
+
+
+
+
+
+
+
 
 ```{r}
 #creating the datasets
@@ -28,7 +39,12 @@ weather_data <- weather_data%>%
 
 ```{r}
 boston_crime_statistics
+```
+```{r}
 weather_data
+```
+```{r}
+all_stats <- cbind(boston_crime_statistics,weather_data)
 ```
 
 ```{r}
@@ -42,6 +58,8 @@ loaction_of_incident <- boston_crime_statistics%>%
 
 ```{r}
 date_of_incident
+```
+```{r}
 loaction_of_incident
 ```
 
@@ -65,4 +83,4 @@ small_data <- boston_crime_statistics%>%
 ```{r}
 ggplot(data=small_data,aes(x=OFFENSE_CODE,y=total))+geom_point()
 ```
-
+In this graph we can see that there are clusters of offense codes that are more common that others

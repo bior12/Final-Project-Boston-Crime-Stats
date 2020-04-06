@@ -233,13 +233,18 @@ summary {
 <h2>Front Matter</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjbGVhbiB1cCB3b3Jrc3BhY2UgZW52aXJvbm1lbnRcbnJtKGxpc3QgPSBscygpKVxuIyBhbGwgcGFja2FnZXMgdXNlZCBmb3IgdGhlIGFzc2lnbm1lbnRcbmxpYnJhcnkobW9zYWljKVxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KERhdGFDb21wdXRpbmcpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjbGVhbiB1cCB3b3Jrc3BhY2UgZW52aXJvbm1lbnRcbnJtKGxpc3QgPSBscygpKVxuXG4jIGFsbCBwYWNrYWdlcyB1c2VkIGZvciB0aGUgYXNzaWdubWVudFxubGlicmFyeShtb3NhaWNEYXRhKVxubGlicmFyeShtb3NhaWMpXG5saWJyYXJ5KERhdGFDb21wdXRpbmcpXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmxpYnJhcnkoZm9yY2F0cylcbmxpYnJhcnkobHVicmlkYXRlKVxubGlicmFyeShyZWFkeGwpXG5gYGAifQ== -->
 <pre class="r"><code># clean up workspace environment
 rm(list = ls())
+
 # all packages used for the assignment
+library(mosaicData)
 library(mosaic)
+library(DataComputing)
 library(tidyverse)
-library(DataComputing)</code></pre>
+library(forcats)
+library(lubridate)
+library(readxl)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -252,7 +257,7 @@ library(DataComputing)</code></pre>
 <ol style="list-style-type: decimal">
 <li>Where did you find them?</li>
 </ol>
-<p>Google</p>
+<p>Both data sets were found on Google.</p>
 <ol start="2" style="list-style-type: decimal">
 <li>Who collected/maintains them?</li>
 </ol>
@@ -275,11 +280,102 @@ library(DataComputing)</code></pre>
 </div>
 <div id="two-data-sources-at-least" class="section level3">
 <h3>TWO Data Sources (at least)</h3>
-<!-- rnb-text-end -->
 </div>
+</div>
+<div id="data" class="section level1">
+<h1>DATA</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2NyZWF0aW5nIHRoZSBkYXRhc2V0c1xuYm9zdG9uX2NyaW1lX3N0YXRpc3RpY3MgPC0gcmVhZF9leGNlbChcImNyaW1lLnhsc3hcIilcbndlYXRoZXJfZGF0YSA8LSByZWFkX2NzdihcIndlYXRoZXIgZGF0YS5jc3ZcIilcbndlYXRoZXJfZGF0YSA8LSB3ZWF0aGVyX2RhdGElPiVcbiAgc2VsZWN0KE5BTUUsTEFUSVRVREUsTE9OR0lUVURFLERBVEUsUFJDUCwgVEFWRyxTTk9XKVxuYGBgIn0= -->
+<pre class="r"><code>#creating the datasets
+boston_crime_statistics &lt;- read_excel(&quot;crime.xlsx&quot;)
+weather_data &lt;- read_csv(&quot;weather data.csv&quot;)
+weather_data &lt;- weather_data%&gt;%
+  select(NAME,LATITUDE,LONGITUDE,DATE,PRCP, TAVG,SNOW)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9zdG9uX2NyaW1lX3N0YXRpc3RpY3NcbmBgYCJ9 -->
+<pre class="r"><code>boston_crime_statistics</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud2VhdGhlcl9kYXRhXG5gYGAifQ== -->
+<pre class="r"><code>weather_data</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWxsX3N0YXRzIDwtIGNiaW5kKGJvc3Rvbl9jcmltZV9zdGF0aXN0aWNzLHdlYXRoZXJfZGF0YSlcbmBgYCJ9 -->
+<pre class="r"><code>all_stats &lt;- cbind(boston_crime_statistics,weather_data)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0ZV9vZl9pbmNpZGVudCA8LSBib3N0b25fY3JpbWVfc3RhdGlzdGljcyU+JVxuICBzZWxlY3QoSU5DSURFTlRfTlVNQkVSLE9DQ1VSUkVEX09OX0RBVEUsWUVBUixNT05USCxEQVlfT0ZfV0VFSyxIT1VSKSU+JVxuICBhcnJhbmdlKE9DQ1VSUkVEX09OX0RBVEUpXG5sb2FjdGlvbl9vZl9pbmNpZGVudCA8LSBib3N0b25fY3JpbWVfc3RhdGlzdGljcyU+JVxuICBzZWxlY3QoSU5DSURFTlRfTlVNQkVSLE9DQ1VSUkVEX09OX0RBVEUsVUNSX1BBUlQsU1RSRUVULExhdCxMb25nLCBMb2NhdGlvbiklPiVcbiAgYXJyYW5nZShPQ0NVUlJFRF9PTl9EQVRFKVxuYGBgIn0= -->
+<pre class="r"><code>date_of_incident &lt;- boston_crime_statistics%&gt;%
+  select(INCIDENT_NUMBER,OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%&gt;%
+  arrange(OCCURRED_ON_DATE)
+loaction_of_incident &lt;- boston_crime_statistics%&gt;%
+  select(INCIDENT_NUMBER,OCCURRED_ON_DATE,UCR_PART,STREET,Lat,Long, Location)%&gt;%
+  arrange(OCCURRED_ON_DATE)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF0ZV9vZl9pbmNpZGVudFxuYGBgIn0= -->
+<pre class="r"><code>date_of_incident</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubG9hY3Rpb25fb2ZfaW5jaWRlbnRcbmBgYCJ9 -->
+<pre class="r"><code>loaction_of_incident</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2RhdGUgcmFuZ2VzXG5maXJzdF9kYXRlPC1ib3N0b25fY3JpbWVfc3RhdGlzdGljcyU+JVxuICBzZWxlY3QoT0NDVVJSRURfT05fREFURSxZRUFSLE1PTlRILERBWV9PRl9XRUVLLEhPVVIpJT4lXG4gIGFycmFuZ2UoT0NDVVJSRURfT05fREFURSklPiVcbiAgaGVhZCgxKVxuXG5sYXN0X2RhdGU8LWJvc3Rvbl9jcmltZV9zdGF0aXN0aWNzJT4lXG4gIHNlbGVjdChPQ0NVUlJFRF9PTl9EQVRFLFlFQVIsTU9OVEgsREFZX09GX1dFRUssSE9VUiklPiVcbiAgYXJyYW5nZShPQ0NVUlJFRF9PTl9EQVRFKSU+JVxuICB0YWlsKDEpXG5maXJzdF9kYXRlXG5sYXN0X2RhdGVcbmBgYCJ9 -->
+<pre class="r"><code>#date ranges
+first_date&lt;-boston_crime_statistics%&gt;%
+  select(OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%&gt;%
+  arrange(OCCURRED_ON_DATE)%&gt;%
+  head(1)
+
+last_date&lt;-boston_crime_statistics%&gt;%
+  select(OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%&gt;%
+  arrange(OCCURRED_ON_DATE)%&gt;%
+  tail(1)
+first_date
+last_date</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI251bWJlciBvZiBkYXkgb3ZlciB3aGljaCB0aGUgZGF0YSBpcyByZWNvcmRlZFxubGFzdF9kYXRlWzEsIFwiT0NDVVJSRURfT05fREFURVwiXS1maXJzdF9kYXRlWzEsIFwiT0NDVVJSRURfT05fREFURVwiXVxuYGBgIn0= -->
+<pre class="r"><code>#number of day over which the data is recorded
+last_date[1, &quot;OCCURRED_ON_DATE&quot;]-first_date[1, &quot;OCCURRED_ON_DATE&quot;]</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc21hbGxfZGF0YSA8LSBib3N0b25fY3JpbWVfc3RhdGlzdGljcyU+JVxuICBncm91cF9ieShPRkZFTlNFX0NPREUpJT4lXG4gIHN1bW1hcmlzZSh0b3RhbCA9IG4oKSlcbmBgYCJ9 -->
+<pre class="r"><code>small_data &lt;- boston_crime_statistics%&gt;%
+  group_by(OFFENSE_CODE)%&gt;%
+  summarise(total = n())</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGRhdGE9c21hbGxfZGF0YSxhZXMoeD1PRkZFTlNFX0NPREUseT10b3RhbCkpK2dlb21fcG9pbnQoKVxuYGBgIn0= -->
+<pre class="r"><code>ggplot(data=small_data,aes(x=OFFENSE_CODE,y=total))+geom_point()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRmluYWwgUHJvamVjdCIgCnN1YnRpdGxlOiAiU3RhdCAxODQiCmF1dGhvcjogIlRyZSBCdXRsZXIsIFBoaWwgU2Fyb2thLCBKZXNzaWNhIFNjaGljayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKIyMgRnJvbnQgTWF0dGVyCgpgYGB7cn0KIyBjbGVhbiB1cCB3b3Jrc3BhY2UgZW52aXJvbm1lbnQKcm0obGlzdCA9IGxzKCkpCiMgYWxsIHBhY2thZ2VzIHVzZWQgZm9yIHRoZSBhc3NpZ25tZW50CmxpYnJhcnkobW9zYWljKQpsaWJyYXJ5KHRpZHl2ZXJzZSkKbGlicmFyeShEYXRhQ29tcHV0aW5nKQpgYGAKCiMjIyBSZXNlYXJjaCBRdWVzdGlvbgoKSG93IGhhdmUgb3V0c2lkZSBmYWN0b3JzIGxpa2Ugd2VhdGhlciBhbmQgdGltZSBhZmZlY3RlZCBjcmltZSByYXRlcyBpbiBCb3N0b24/CgojIyMgRGF0YSBTb3VyY2VzCgoxLiBXaGVyZSBkaWQgeW91IGZpbmQgdGhlbT8KCkdvb2dsZQoKMi4gV2hvIGNvbGxlY3RlZC9tYWludGFpbnMgdGhlbT8KCkFua3VySmFpbgoKaHR0cHM6Ly93d3cua2FnZ2xlLmNvbS9hbmtrdXIxMy9ib3N0b24tY3JpbWUtZGF0YQoKMy4gV2hlbiAmIFdoeSB3ZXJlIHRoZXkgb3JpZ2luYWxseSBjb2xsZWN0ZWQ/Cgo8PDw8PDw8IEhFQUQKSW4gMjAxOCBtYWlubHksIHRvIHRyYWNrIGNyaW1lIHN0YXRzIGluIEJvc3Rvbgo9PT09PT09CkluIDIwMTggbWFpbmx5LCB0byB0cmFjayBjcmltZSBzdGF0cyBpbiBCb3N0b24uCj4+Pj4+Pj4gMzk3NjE3NjY3ZjIyMTJlMmY1YzM1N2JmYmYyODM1MDRjNTI1NmVhZQoKNC4gV2hhdCBkb2VzIGEgY2FzZSByZXByZXNlbnQgaW4gZWFjaCBkYXRhIHNvdXJjZSwgYW5kIGhvdyBtYW55IHRvdGFsIGNhc2VzIGFyZSBhdmFpbGFibGU/CgpBbiBpbmNpZGVudCwgb3ZlciAzMDAsMDAwLgoKNS4gV2hhdCBhcmUgc29tZSBvZiB0aGUgdmFyaWFibGVzIHRoYXQgeW91IHBsYW4gdG8gdXNlPwoKIyMjIFBsb3RzLCBTdW1tYXJ5IFN0YXRpc3RpY3MsIGFuZCBPYnNlcnZhdGlvbnMKCiMjIyBUV08gRGF0YSBTb3VyY2VzIChhdCBsZWFzdCkK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRmluYWwgUHJvamVjdCIgCnN1YnRpdGxlOiAiU3RhdCAxODQiCmF1dGhvcjogIlRyZSBCdXRsZXIsIFBoaWwgU2Fyb2thLCBKZXNzaWNhIFNjaGljayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKIyMgRnJvbnQgTWF0dGVyCgpgYGB7cn0KIyBjbGVhbiB1cCB3b3Jrc3BhY2UgZW52aXJvbm1lbnQKcm0obGlzdCA9IGxzKCkpCgojIGFsbCBwYWNrYWdlcyB1c2VkIGZvciB0aGUgYXNzaWdubWVudApsaWJyYXJ5KG1vc2FpY0RhdGEpCmxpYnJhcnkobW9zYWljKQpsaWJyYXJ5KERhdGFDb21wdXRpbmcpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGZvcmNhdHMpCmxpYnJhcnkobHVicmlkYXRlKQpsaWJyYXJ5KHJlYWR4bCkKYGBgCgojIyMgUmVzZWFyY2ggUXVlc3Rpb24KCkhvdyBoYXZlIG91dHNpZGUgZmFjdG9ycyBsaWtlIHdlYXRoZXIgYW5kIHRpbWUgYWZmZWN0ZWQgY3JpbWUgcmF0ZXMgaW4gQm9zdG9uPwoKIyMjIERhdGEgU291cmNlcwoKMS4gV2hlcmUgZGlkIHlvdSBmaW5kIHRoZW0/CgpCb3RoIGRhdGEgc2V0cyB3ZXJlIGZvdW5kIG9uIEdvb2dsZS4KCjIuIFdobyBjb2xsZWN0ZWQvbWFpbnRhaW5zIHRoZW0/CgpBbmt1ckphaW4KCmh0dHBzOi8vd3d3LmthZ2dsZS5jb20vYW5ra3VyMTMvYm9zdG9uLWNyaW1lLWRhdGEKCjMuIFdoZW4gJiBXaHkgd2VyZSB0aGV5IG9yaWdpbmFsbHkgY29sbGVjdGVkPwoKPDw8PDw8PCBIRUFECkluIDIwMTggbWFpbmx5LCB0byB0cmFjayBjcmltZSBzdGF0cyBpbiBCb3N0b24KPT09PT09PQpJbiAyMDE4IG1haW5seSwgdG8gdHJhY2sgY3JpbWUgc3RhdHMgaW4gQm9zdG9uLgo+Pj4+Pj4+IDM5NzYxNzY2N2YyMjEyZTJmNWMzNTdiZmJmMjgzNTA0YzUyNTZlYWUKCjQuIFdoYXQgZG9lcyBhIGNhc2UgcmVwcmVzZW50IGluIGVhY2ggZGF0YSBzb3VyY2UsIGFuZCBob3cgbWFueSB0b3RhbCBjYXNlcyBhcmUgYXZhaWxhYmxlPwoKQW4gaW5jaWRlbnQsIG92ZXIgMzAwLDAwMC4KCjUuIFdoYXQgYXJlIHNvbWUgb2YgdGhlIHZhcmlhYmxlcyB0aGF0IHlvdSBwbGFuIHRvIHVzZT8KCiMjIyBQbG90cywgU3VtbWFyeSBTdGF0aXN0aWNzLCBhbmQgT2JzZXJ2YXRpb25zCgojIyMgVFdPIERhdGEgU291cmNlcyAoYXQgbGVhc3QpCgojREFUQQoKYGBge3J9CiNjcmVhdGluZyB0aGUgZGF0YXNldHMKYm9zdG9uX2NyaW1lX3N0YXRpc3RpY3MgPC0gcmVhZF9leGNlbCgiY3JpbWUueGxzeCIpCndlYXRoZXJfZGF0YSA8LSByZWFkX2Nzdigid2VhdGhlciBkYXRhLmNzdiIpCndlYXRoZXJfZGF0YSA8LSB3ZWF0aGVyX2RhdGElPiUKICBzZWxlY3QoTkFNRSxMQVRJVFVERSxMT05HSVRVREUsREFURSxQUkNQLCBUQVZHLFNOT1cpCmBgYAoKYGBge3J9CmJvc3Rvbl9jcmltZV9zdGF0aXN0aWNzCmBgYApgYGB7cn0Kd2VhdGhlcl9kYXRhCmBgYApgYGB7cn0KYWxsX3N0YXRzIDwtIGNiaW5kKGJvc3Rvbl9jcmltZV9zdGF0aXN0aWNzLHdlYXRoZXJfZGF0YSkKYGBgCgpgYGB7cn0KZGF0ZV9vZl9pbmNpZGVudCA8LSBib3N0b25fY3JpbWVfc3RhdGlzdGljcyU+JQogIHNlbGVjdChJTkNJREVOVF9OVU1CRVIsT0NDVVJSRURfT05fREFURSxZRUFSLE1PTlRILERBWV9PRl9XRUVLLEhPVVIpJT4lCiAgYXJyYW5nZShPQ0NVUlJFRF9PTl9EQVRFKQpsb2FjdGlvbl9vZl9pbmNpZGVudCA8LSBib3N0b25fY3JpbWVfc3RhdGlzdGljcyU+JQogIHNlbGVjdChJTkNJREVOVF9OVU1CRVIsT0NDVVJSRURfT05fREFURSxVQ1JfUEFSVCxTVFJFRVQsTGF0LExvbmcsIExvY2F0aW9uKSU+JQogIGFycmFuZ2UoT0NDVVJSRURfT05fREFURSkKYGBgCgpgYGB7cn0KZGF0ZV9vZl9pbmNpZGVudApgYGAKYGBge3J9CmxvYWN0aW9uX29mX2luY2lkZW50CmBgYAoKYGBge3J9CiNkYXRlIHJhbmdlcwpmaXJzdF9kYXRlPC1ib3N0b25fY3JpbWVfc3RhdGlzdGljcyU+JQogIHNlbGVjdChPQ0NVUlJFRF9PTl9EQVRFLFlFQVIsTU9OVEgsREFZX09GX1dFRUssSE9VUiklPiUKICBhcnJhbmdlKE9DQ1VSUkVEX09OX0RBVEUpJT4lCiAgaGVhZCgxKQoKbGFzdF9kYXRlPC1ib3N0b25fY3JpbWVfc3RhdGlzdGljcyU+JQogIHNlbGVjdChPQ0NVUlJFRF9PTl9EQVRFLFlFQVIsTU9OVEgsREFZX09GX1dFRUssSE9VUiklPiUKICBhcnJhbmdlKE9DQ1VSUkVEX09OX0RBVEUpJT4lCiAgdGFpbCgxKQpmaXJzdF9kYXRlCmxhc3RfZGF0ZQpgYGAKCmBgYHtyfQojbnVtYmVyIG9mIGRheSBvdmVyIHdoaWNoIHRoZSBkYXRhIGlzIHJlY29yZGVkCmxhc3RfZGF0ZVsxLCAiT0NDVVJSRURfT05fREFURSJdLWZpcnN0X2RhdGVbMSwgIk9DQ1VSUkVEX09OX0RBVEUiXQpgYGAKYGBge3J9CnNtYWxsX2RhdGEgPC0gYm9zdG9uX2NyaW1lX3N0YXRpc3RpY3MlPiUKICBncm91cF9ieShPRkZFTlNFX0NPREUpJT4lCiAgc3VtbWFyaXNlKHRvdGFsID0gbigpKQpgYGAKYGBge3J9CmdncGxvdChkYXRhPXNtYWxsX2RhdGEsYWVzKHg9T0ZGRU5TRV9DT0RFLHk9dG90YWwpKStnZW9tX3BvaW50KCkKYGBgCg==</div>
 
 
 
