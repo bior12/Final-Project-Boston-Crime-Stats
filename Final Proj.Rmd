@@ -20,8 +20,6 @@ library(DataComputing)
 
 How have outside factors like weather and time affected crime rates in Boston?
 
-How have outside factors like weather and time affected crime rates in Boston?
-
 ### Data Sources
 
 1. Where did you find them?
