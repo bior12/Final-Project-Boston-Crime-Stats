@@ -16,7 +16,9 @@ library(tidyverse)
 library(DataComputing)
 ```
 
-### Research Question:
+### Research Question
+
+How have outside factors like weather and time affected crime rates in Boston?
 
 How have outside factors like weather and time affected crime rates in Boston?
 
