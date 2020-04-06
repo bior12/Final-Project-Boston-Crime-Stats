@@ -233,22 +233,26 @@ summary {
 <h2>Front Matter</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBjbGVhbiB1cCB3b3Jrc3BhY2UgZW52aXJvbm1lbnRcbnJtKGxpc3QgPSBscygpKVxuIyBhbGwgcGFja2FnZXMgdXNlZCBmb3IgdGhlIGFzc2lnbm1lbnRcbmxpYnJhcnkobW9zYWljKVxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KERhdGFDb21wdXRpbmcpXG5gYGBcbmBgYCJ9 -->
-<p><code>r</code>r # clean up workspace environment rm(list = ls()) # all packages used for the assignment library(mosaic) library(tidyverse) library(DataComputing)</p>
-<pre><code></code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjbGVhbiB1cCB3b3Jrc3BhY2UgZW52aXJvbm1lbnRcbnJtKGxpc3QgPSBscygpKVxuIyBhbGwgcGFja2FnZXMgdXNlZCBmb3IgdGhlIGFzc2lnbm1lbnRcbmxpYnJhcnkobW9zYWljKVxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KERhdGFDb21wdXRpbmcpXG5gYGAifQ== -->
+<pre class="r"><code># clean up workspace environment
+rm(list = ls())
+# all packages used for the assignment
+library(mosaic)
+library(tidyverse)
+library(DataComputing)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <div id="research-question" class="section level3">
 <h3>Research Question:</h3>
-<p>“How have outside factors like weather and time affected crime rates in Boston?”</p>
+<p>How have outside factors like weather and time affected crime rates in Boston?</p>
 </div>
 <div id="data-sources" class="section level3">
 <h3>Data Sources</h3>
 <ol style="list-style-type: decimal">
 <li>Where did you find them?</li>
 </ol>
-<p>google</p>
+<p>Google</p>
 <ol start="2" style="list-style-type: decimal">
 <li>Who collected/maintains them?</li>
 </ol>
@@ -257,11 +261,11 @@ summary {
 <ol start="3" style="list-style-type: decimal">
 <li>When &amp; Why were they originally collected?</li>
 </ol>
-<p>In 2018 mainly, to track crime stats in Boston</p>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD In 2018 mainly, to track crime stats in Boston ======= In 2018 mainly, to track crime stats in Boston. &gt;&gt;&gt;&gt;&gt;&gt;&gt; 397617667f2212e2f5c357bfbf283504c5256eae</p>
 <ol start="4" style="list-style-type: decimal">
 <li>What does a case represent in each data source, and how many total cases are available?</li>
 </ol>
-<p>and incident, over 300,000</p>
+<p>An incident, over 300,000.</p>
 <ol start="5" style="list-style-type: decimal">
 <li>What are some of the variables that you plan to use?</li>
 </ol>
@@ -275,7 +279,7 @@ summary {
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRmluYWwgUHJvamVjdCIgCnN1YnRpdGxlOiAiU3RhdCAxODQiCmF1dGhvcjogIlRyZSBCdXRsZXIsIFBoaWwgU2Fyb2thLCBKZXNzaWNhIFNjaGljayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKIyMgRnJvbnQgTWF0dGVyCgpgYGB7cn0KIyBjbGVhbiB1cCB3b3Jrc3BhY2UgZW52aXJvbm1lbnQKcm0obGlzdCA9IGxzKCkpCiMgYWxsIHBhY2thZ2VzIHVzZWQgZm9yIHRoZSBhc3NpZ25tZW50CmxpYnJhcnkobW9zYWljKQpsaWJyYXJ5KHRpZHl2ZXJzZSkKbGlicmFyeShEYXRhQ29tcHV0aW5nKQpgYGAKCiMjIyBSZXNlYXJjaCBRdWVzdGlvbjoKCiJIb3cgaGF2ZSBvdXRzaWRlIGZhY3RvcnMgbGlrZSB3ZWF0aGVyIGFuZCB0aW1lIGFmZmVjdGVkIGNyaW1lIHJhdGVzIGluIEJvc3Rvbj8iCgojIyMgRGF0YSBTb3VyY2VzCgoxLiBXaGVyZSBkaWQgeW91IGZpbmQgdGhlbT8KCmdvb2dsZQoKMi4gV2hvIGNvbGxlY3RlZC9tYWludGFpbnMgdGhlbT8KCkFua3VySmFpbgoKaHR0cHM6Ly93d3cua2FnZ2xlLmNvbS9hbmtrdXIxMy9ib3N0b24tY3JpbWUtZGF0YQoKMy4gV2hlbiAmIFdoeSB3ZXJlIHRoZXkgb3JpZ2luYWxseSBjb2xsZWN0ZWQ/CgpJbiAyMDE4IG1haW5seSwgdG8gdHJhY2sgY3JpbWUgc3RhdHMgaW4gQm9zdG9uCgo0LiBXaGF0IGRvZXMgYSBjYXNlIHJlcHJlc2VudCBpbiBlYWNoIGRhdGEgc291cmNlLCBhbmQgaG93IG1hbnkgdG90YWwgY2FzZXMgYXJlIGF2YWlsYWJsZT8KCmFuZCBpbmNpZGVudCwgb3ZlciAzMDAsMDAwCgo1LiBXaGF0IGFyZSBzb21lIG9mIHRoZSB2YXJpYWJsZXMgdGhhdCB5b3UgcGxhbiB0byB1c2U/CgojIyMgUGxvdHMsIFN1bW1hcnkgU3RhdGlzdGljcywgYW5kIE9ic2VydmF0aW9ucwoKIyMjIFRXTyBEYXRhIFNvdXJjZXMgKGF0IGxlYXN0KQo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRmluYWwgUHJvamVjdCIgCnN1YnRpdGxlOiAiU3RhdCAxODQiCmF1dGhvcjogIlRyZSBCdXRsZXIsIFBoaWwgU2Fyb2thLCBKZXNzaWNhIFNjaGljayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKIyMgRnJvbnQgTWF0dGVyCgpgYGB7cn0KIyBjbGVhbiB1cCB3b3Jrc3BhY2UgZW52aXJvbm1lbnQKcm0obGlzdCA9IGxzKCkpCiMgYWxsIHBhY2thZ2VzIHVzZWQgZm9yIHRoZSBhc3NpZ25tZW50CmxpYnJhcnkobW9zYWljKQpsaWJyYXJ5KHRpZHl2ZXJzZSkKbGlicmFyeShEYXRhQ29tcHV0aW5nKQpgYGAKCiMjIyBSZXNlYXJjaCBRdWVzdGlvbjoKCkhvdyBoYXZlIG91dHNpZGUgZmFjdG9ycyBsaWtlIHdlYXRoZXIgYW5kIHRpbWUgYWZmZWN0ZWQgY3JpbWUgcmF0ZXMgaW4gQm9zdG9uPwoKIyMjIERhdGEgU291cmNlcwoKMS4gV2hlcmUgZGlkIHlvdSBmaW5kIHRoZW0/CgpHb29nbGUKCjIuIFdobyBjb2xsZWN0ZWQvbWFpbnRhaW5zIHRoZW0/CgpBbmt1ckphaW4KCmh0dHBzOi8vd3d3LmthZ2dsZS5jb20vYW5ra3VyMTMvYm9zdG9uLWNyaW1lLWRhdGEKCjMuIFdoZW4gJiBXaHkgd2VyZSB0aGV5IG9yaWdpbmFsbHkgY29sbGVjdGVkPwoKPDw8PDw8PCBIRUFECkluIDIwMTggbWFpbmx5LCB0byB0cmFjayBjcmltZSBzdGF0cyBpbiBCb3N0b24KPT09PT09PQpJbiAyMDE4IG1haW5seSwgdG8gdHJhY2sgY3JpbWUgc3RhdHMgaW4gQm9zdG9uLgo+Pj4+Pj4+IDM5NzYxNzY2N2YyMjEyZTJmNWMzNTdiZmJmMjgzNTA0YzUyNTZlYWUKCjQuIFdoYXQgZG9lcyBhIGNhc2UgcmVwcmVzZW50IGluIGVhY2ggZGF0YSBzb3VyY2UsIGFuZCBob3cgbWFueSB0b3RhbCBjYXNlcyBhcmUgYXZhaWxhYmxlPwoKQW4gaW5jaWRlbnQsIG92ZXIgMzAwLDAwMC4KCjUuIFdoYXQgYXJlIHNvbWUgb2YgdGhlIHZhcmlhYmxlcyB0aGF0IHlvdSBwbGFuIHRvIHVzZT8KCiMjIyBQbG90cywgU3VtbWFyeSBTdGF0aXN0aWNzLCBhbmQgT2JzZXJ2YXRpb25zCgojIyMgVFdPIERhdGEgU291cmNlcyAoYXQgbGVhc3QpCg==</div>
 
 
 
