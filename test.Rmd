@@ -26,4 +26,11 @@ boston_crime_statistics <- read_excel("crime.xlsx")
 ```{r}
 boston_crime_statistics
 ```
+```{r}
+small_data <- boston_crime_statistics%>%
+  head(2000)
+```
+```{r}
+ggplot(data=small_data,aes(x=HOUR,y=OFFENSE_CODE))+geom_point()+facet_wrap(~DISTRICT,ncol=4)
+```
 
