@@ -21,52 +21,38 @@ library(lubridate)
 library(readxl)
 ```
 
-### Research Question
+Tre Butler, Phil Saroka, Jessica Schick
+#Research Question:
 
-How have outside factors like weather and time affected crime rates in Boston?
+How have outside factors like weather and time affected the crime rates of Boston?
 
-### Data Sources
+#Data Sources:
 
-1. Where did you find them?
+##Where did you find them? (I don’t think we should just say Google)
+- Boston crime rates data - https://www.kaggle.com/ankkur13/boston-crime-data
+- Boston weather data - https://www.ncdc.noaa.gov/
 
-* Boston crime rates data - https://www.kaggle.com/ankkur13/boston-crime-data
+##Who collected/maintains them?
+- Boston crime rates data - AnkurJain formed the dataset on Kaggle, but the information to create the dataset comes from the Boston Police Department
+- Boston weather data - The NOAA gathers it’s data from many sources including the World Meteorological Organization
 
-* Boston weather data - Global Historical Climatology Network
+##When & Why were they originally collected? 
 
+A) Boston crime rates data - The dataset started in 2015 and was originally collected to find trends in crime statistics.
+B) Boston weather data - The NOAA has kept weather statistics for many places for the past 30 years. They are collected for convenience to those who need to study trends in the weather.
 
-2. Who collected/maintains them?
+##What does a case represent in each data source, and how many total cases are available?
+Boston crime rates data - each case represent an Incident Number and there are a total of 260,760 cases available to use
+Boston weather data - each case represent the Date of the Year and there are a total of 1,221 cases available to use
 
-* Boston crime rates data - A man named AnkurJain formed the dataset on Kaggle, but the information to create the dataset comes from the Boston Police Department
+##What are some of the variables that you plan to use?
+Boston crime rates data - Incident Number, Occurred on Date, Year, Month, Day of the Week, Hour, UCR Part, Street, Latitude, Longitude, Location, Offense Code
+Boston weather data - Name, Latitude, Longitude, Date, Precipitation, Snow, Temperature Average
+Plots, Summary Stats, and Observations
 
-* Boston weather data - The GHCN gathers it’s data from many sources including the World Meteorological Organization
-
-
-3. When & Why were they originally collected?
-
-* Boston crime rates data - The dataset started in 2015 and was originally collected to find trends in crime statistics.
-
-* Boston weather data - The GHCN has kept weather statistics for many places for the past 30 years. They are collected for convenience to those who need to study trends in the weather.
-
-
-4. What does a case represent in each data source, and how many total cases are available?
-
-* Boston crime rates data - each case represent an Incident Number and there are a total of 260,760 cases available to use
-
-* Boston weather data - each case represent the Date of the Year and there are a total of 1,221 cases available to use
-
-
-5. What are some of the variables that you plan to use?
-
-* Boston crime rates data - Incident Number, Occurred on Date, Year, Month, Day of the Week, Hour, UCR Part, Street, Latitude, Longitude, Location, Offense Code
-
-* Boston weather data - Name, Latitude, Longitude, Date, Precipitation, Snow, Temperature Average
-
-
-### Plots, Summary Statistics, and Observations
-
-### TWO Data Sources (at least)
-
-#DATA
+##TWO Data Sources (at least)
+Primary data:  Boston Crime Data 
+Other data sources: Boston Weather Data
 
 ```{r}
 #creating the datasets
@@ -82,10 +68,6 @@ boston_crime_statistics
 ```{r}
 weather_data
 ```
-```{r}
-all_stats <- cbind(boston_crime_statistics,weather_data)
-```
-
 ```{r}
 date_of_incident <- boston_crime_statistics%>%
   select(INCIDENT_NUMBER,OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
@@ -126,6 +108,9 @@ small_data <- boston_crime_statistics%>%
   group_by(OFFENSE_CODE)%>%
   summarise(total = n())
 ```
+
+##Create some informative plots and summary statistics 
 ```{r}
 ggplot(data=small_data,aes(x=OFFENSE_CODE,y=total))+geom_point()
 ```
+In this graph we can see that there are clusters of offense codes that are more common that others
