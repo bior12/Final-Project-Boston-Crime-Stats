@@ -26,6 +26,33 @@ boston_crime_statistics <- read_excel("crime.xlsx")
 ```{r}
 boston_crime_statistics
 ```
+
+```{r}
+date_of_incident <- boston_crime_statistics%>%
+  select(INCIDENT_NUMBER,OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
+  arrange(OCCURRED_ON_DATE)
+loaction_of_incident <- boston_crime_statistics%>%
+  select(INCIDENT_NUMBER,OCCURRED_ON_DATE,UCR_PART,STREET,Lat,Long, Location)%>%
+  arrange(OCCURRED_ON_DATE)
+```
+
+```{r}
+date_of_incident
+loaction_of_incident
+```
+
+```{r}
+
+boston_crime_statistics%>%
+  select(OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
+  arrange(OCCURRED_ON_DATE)%>%
+  head(10)
+
+boston_crime_statistics%>%
+  select(OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
+  arrange(OCCURRED_ON_DATE)%>%
+  tail(10)
+```
 ```{r}
 small_data <- boston_crime_statistics%>%
   head(2000)
