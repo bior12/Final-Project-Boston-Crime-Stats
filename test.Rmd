@@ -92,6 +92,10 @@ weather_data <- weather_data%>%
 ```
 
 ```{r}
+boston_crime_statistics<-boston_crime_statistics%>%
+  rename("date"="OCCURRED_ON_DATE")%>%
+  rename("lng"="Long")%>%
+  rename("lat"="Lat")
 boston_crime_statistics
 ```
 ```{r}
@@ -100,11 +104,11 @@ weather_data
 
 ```{r}
 date_of_incident <- boston_crime_statistics%>%
-  dplyr::select(INCIDENT_NUMBER,OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
-  arrange(OCCURRED_ON_DATE)
+  dplyr::select(INCIDENT_NUMBER,date,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
+  arrange(date)
 location_of_incident <- boston_crime_statistics%>%
-  dplyr::select(INCIDENT_NUMBER,OCCURRED_ON_DATE,UCR_PART,STREET,Lat,Long, Location)%>%
-  arrange(OCCURRED_ON_DATE)
+  dplyr::select(INCIDENT_NUMBER,date,UCR_PART,STREET,lat,lng, Location)%>%
+  arrange(date)
 ```
 
 ```{r}
@@ -144,47 +148,36 @@ ggplot(data=small_data,aes(x=OFFENSE_CODE,y=total))+geom_point()
 In this graph we can see that there are clusters of offense codes that are more common that others
 
 ```{r}
-
-world <- ne_countries(scale = "medium", returnclass = "sf")
-class(world)
-
-ggplot(data = world) +
-    geom_sf() +
-    coord_sf(xlim = c(40, 42), ylim = c(70, 72), expand = FALSE) +
-    geom_density_2d(data=location_of_incident%>%head(10),aes(x=Long,y=Lat))
-data(world.cities)
-
-
-```
-
-```{r}
 location_of_incident
 ```
 ```{r}
-lang<-location_of_incident%>%filter(Lat>40)%>%filter(Long<(-70))
+lang<-location_of_incident%>%
+  dplyr::select(date,lng,lat)%>%
+  filter(lat>40)%>%filter(lng<(-70))
 lang
 ```
 ```{r}
-lat_avg=mean(lang$Lat,na.rm = T)
-lng_avg=mean(lang$Long,na.rm = T)
+lat_avg=mean(lang$lat,na.rm = T)
+lng_avg=mean(lang$lng,na.rm = T)
+lang
 lat_avg
 lng_avg
 ```
 
 
 ```{r}
-ggplot(data=lang,aes(x=Long,y=Lat))+geom_density_2d()
+ggplot(data=lang,aes(x=lng,y=lat))+geom_density_2d()
 ```
 ```{r warning=FALSE}
 setattr(lang, "class", c("data.table"))
-kde <- bkde2D(lang[ , list(Long, Lat)],
+kde <- bkde2D(lang[ , list(lng, lat)],
               bandwidth=c(.0045, .0068), gridsize = c(100,100))
 
-KernelDensityRaster <- raster(list(x=kde$x1 ,y=kde$x2 ,z = kde$fhat))
+CrimeHeatMap <- raster(list(x=kde$x1 ,y=kde$x2 ,z = kde$fhat))
 
-KernelDensityRaster@data@values[which(KernelDensityRaster@data@values < 1)] <- NA
+KernelDensityRaster@data@values[which(CrimeHeatMap@data@values < 1)] <- NA
 
-palRaster <- colorNumeric("Spectral", domain = KernelDensityRaster@data@values, na.color = "transparent")
+palRaster <- colorNumeric("Spectral", domain = CrimeHeatMap@data@values, na.color = "transparent")
 
 leaflet() %>% addTiles() %>% 
   addRasterImage(KernelDensityRaster, 
