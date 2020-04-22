@@ -88,7 +88,7 @@ Other data sources: Boston Weather Data
 boston_crime_statistics <- read_excel("crime.xlsx")
 weather_data <- read_csv("weather data.csv")
 weather_data <- weather_data%>%
-  select(NAME,LATITUDE,LONGITUDE,DATE,PRCP, TAVG,SNOW)
+  dplyr::select(NAME,LATITUDE,LONGITUDE,DATE,PRCP, TAVG,SNOW)
 ```
 
 ```{r}
@@ -100,10 +100,10 @@ weather_data
 
 ```{r}
 date_of_incident <- boston_crime_statistics%>%
-  select(INCIDENT_NUMBER,OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
+  dplyr::select(INCIDENT_NUMBER,OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
   arrange(OCCURRED_ON_DATE)
 location_of_incident <- boston_crime_statistics%>%
-  select(INCIDENT_NUMBER,OCCURRED_ON_DATE,UCR_PART,STREET,Lat,Long, Location)%>%
+  dplyr::select(INCIDENT_NUMBER,OCCURRED_ON_DATE,UCR_PART,STREET,Lat,Long, Location)%>%
   arrange(OCCURRED_ON_DATE)
 ```
 
@@ -117,12 +117,12 @@ location_of_incident
 ```{r}
 #date ranges
 first_date<-boston_crime_statistics%>%
-  select(OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
+  dplyr::select(OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
   arrange(OCCURRED_ON_DATE)%>%
   head(1)
 
 last_date<-boston_crime_statistics%>%
-  select(OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
+  dplyr::select(OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
   arrange(OCCURRED_ON_DATE)%>%
   tail(1)
 first_date
@@ -173,79 +173,27 @@ lng_avg
 
 
 ```{r}
-ggplot(data=lang%>%head(10000),aes(x=Long,y=Lat))+geom_density_2d()
+ggplot(data=lang,aes(x=Long,y=Lat))+geom_density_2d()
 ```
-```{r}
-states <- map_data("state")
-dim(states)
-ca_df <- subset(states, region == "california")
-counties <- map_data("county")
-ca_county <- subset(counties, region == "california")
-ca_base <- ggplot(data = ca_df, mapping = aes(x = long, y = lat, group = group)) + 
-  coord_fixed(1.3) + 
-  geom_polygon(color = "black", fill = "gray")
-  ca_base + theme_nothing() + 
-  geom_polygon(data = ca_county, fill = NA, color = "white") +
-  geom_polygon(color = "black", fill = NA) + # get the state border back on top
-  ggplot(data=lang%>%head(10000),aes(x=Lat,y=Long))+geom_density_2d()
-
-```
-
-
-```{r}
-locationMap <-
-  leaflet(lang%>%head(10)) %>%   # like ggplot()
-  addTiles() %>%          # add the map
-  addCircleMarkers(radius=2, color="red") %>%
-  setView(lng_avg, lat_avg, zoom=12)
-locationMap
-```
-
-```{r}
-#inurl <- "https://data.cityofchicago.org/api/views/22s8-eq8h/rows.csv?accessType=DOWNLOAD"
-#infile <- "mvthefts.csv"
-
-## LOAD DATA
-## Also, clean up variable names, and convert dates
-#if(!file.exists(infile)){
-#  download.file(url = inurl, destfile = infile)
-#}
-#dat <- data.table::fread(infile)
-
-dlang<-lang%>%select(Long,Lat)
-## Create kernel density output
-kde <- bkde2D(dlang,
+```{r warning=FALSE}
+setattr(lang, "class", c("data.table"))
+kde <- bkde2D(lang[ , list(Long, Lat)],
               bandwidth=c(.0045, .0068), gridsize = c(100,100))
-# Create Raster from Kernel Density output
+
 KernelDensityRaster <- raster(list(x=kde$x1 ,y=kde$x2 ,z = kde$fhat))
 
-#create pal function for coloring the raster
-palRaster <- colorNumeric("Spectral", domain = KernelDensityRaster@data@values)
+KernelDensityRaster@data@values[which(KernelDensityRaster@data@values < 1)] <- NA
 
-## Leaflet map with raster
-leaflet() %>% addTiles() %>% 
-  addRasterImage(KernelDensityRaster, 
-                 colors = palRaster, 
-                 opacity = .8) %>%
-  addLegend(pal = palRaster, 
-            values = KernelDensityRaster@data@values, 
-            title = "Kernel Density of Points")
-```
-```{r}
-#set low density cells as NA so we can make them transparent with the colorNumeric function
- KernelDensityRaster@data@values[which(KernelDensityRaster@data@values < 1)] <- NA
-
-#create pal function for coloring the raster
 palRaster <- colorNumeric("Spectral", domain = KernelDensityRaster@data@values, na.color = "transparent")
 
-## Redraw the map
 leaflet() %>% addTiles() %>% 
   addRasterImage(KernelDensityRaster, 
                  colors = palRaster, 
                  opacity = .8) %>%
   addLegend(pal = palRaster, 
             values = KernelDensityRaster@data@values, 
-            title = "Kernel Density of Points")
-
+            title = "Crime Heat Map")
+  
 ```
+
 
