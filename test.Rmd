@@ -144,18 +144,40 @@ class(world)
 
 ggplot(data = world) +
     geom_sf() +
-    coord_sf(xlim = c(40, 42), ylim = c(70, 72), expand = FALSE)
+    coord_sf(xlim = c(40, 42), ylim = c(70, 72), expand = FALSE) +
+    geom_density_2d(data=location_of_incident%>%head(10),aes(x=Long,y=Lat))
 data(world.cities)
-map.cities(x = world.cities, country = "United States", label = NULL, minpop = 0,
-maxpop = Inf, capitals = 0, cex = par("cex"), projection = FALSE,
-parameters = NULL, orientation = NULL, pch = 1
+
 
 ```
 
 ```{r}
-stationMap <-
-  leaflet(location_of_incident)%>%
-  setView(map,lng=72, lat=41, zoom=12)
-stationMap
+location_of_incident
+```
+```{r}
+latt<-location_of_incident%>%select(Lat)%>%filter(Lat>40)
+lngg<-location_of_incident%>%select(Long)%>%filter(Long<(-70))
+latt
+lngg
+```
+```{r}
+lat_avg=mean(latt$Lat,na.rm = T)
+lng_avg=mean(lngg$Long,na.rm = T)
+lat_avg
+lng_avg
+```
+
+```{r}
+ggplot(data=location_of_incident%>%head(100000),aes(x=Long,y=Lat))+geom_density_2d()
+```
+
+
+```{r}
+locationMap <-
+  leaflet(location_of_incident%>%head(10)) %>%   # like ggplot()
+  addTiles() %>%          # add the map
+  addCircleMarkers(radius=2, color="red") %>%
+  setView(lng_avg, lat_avg, zoom=12)
+locationMap
 ```
 
