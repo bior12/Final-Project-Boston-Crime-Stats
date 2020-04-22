@@ -1,7 +1,7 @@
 ---
 title: 'Final Project: Guidance Document'
-author: "Author Name(s)"
-date: "Due December 17, 2019"
+author: "Tre Butler, Phil Saroka, Jessica Schick"
+date: "Due April 24, 2020"
 output:  html_notebook
 ---
 
