@@ -1,0 +1,51 @@
+---
+title: "CrimeVsWeather"
+author: "Tre Butler"
+date: "4/22/2020"
+output: html_notebook
+---
+
+```{r}
+## Set Up
+
+#install.packages(c("cowplot", "googleway", "ggplot2", "ggrepel", 
+#"ggspatial", "libwgeom", "sf", "rnaturalearth", "rnaturalearthdata", 
+#"rworldxtra","ggmap","digest","glue","cowplot"))
+```
+```{r}
+#install.packages()
+```
+```{r warning=TRUE}
+# clean up workspace environment
+rm(list = ls())
+
+# all packages used for the assignment
+library(mosaicData)
+library(mosaic)
+library(DataComputing)
+library(tidyverse)
+library(forcats)
+library(lubridate)
+library(readxl)
+library(ggplot2)
+theme_set(theme_bw())
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(sp)
+library(rworldmap)
+library(rworldxtra)
+library(leaflet)
+library(data.table)
+library(rgdal)
+library(KernSmooth)
+library(raster)
+```
+
+```{r message=FALSE, warning=FALSE}
+#creating the datasets
+boston_crime_statistics <- read_excel("crime.xlsx")
+weather_data <- read_csv("weather data.csv")
+weather_data <- weather_data%>%
+  dplyr::select(NAME,LATITUDE,LONGITUDE,DATE,PRCP, TAVG,SNOW)
+```
