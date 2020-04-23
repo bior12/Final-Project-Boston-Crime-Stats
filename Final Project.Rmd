@@ -52,3 +52,29 @@ Plots, Summary Stats, and Observations
 ##TWO Data Sources (at least)
 Primary data:  Boston Crime Data 
 Other data sources: Boston Weather Data
+
+
+## Joining datasets to create CrimeVsWeather Table
+```{r}
+CrimeVsWeather <-
+  boston_crime_statistics %>%
+  mutate("DATE" = ymd(as.Date(OCCURRED_ON_DATE))) %>%
+  left_join(weather_data,"DATE")
+```
+
+## Using date verbs to create data for our graphic
+```{r}
+CrimeVsWeather <- 
+  CrimeVsWeather %>%
+  group_by(TAVG) %>%
+  summarise(Total = n()) %>%
+  arrange(desc(Total))
+CrimeVsWeather
+```
+
+## Bar Graph Showing Avg Temperature Vs Crimes Committed
+```{r}
+CrimeVsWeather %>% 
+  ggplot(aes(x=TAVG,y=Total )) +
+  geom_bar(stat='identity',position='stack', width=.9) 
+```
