@@ -31,6 +31,7 @@ library(leaflet)
 library(data.table)
 library(rgdal)
 library(KernSmooth)
+library(raster)
 ```
 
 Tre Butler, Phil Saroka, Jessica Schick
@@ -162,39 +163,49 @@ lng_avg
 ```
 
 
+
+
+```{r}
+#ggplot(data=lang%>%head(10),aes(x=lng,y=lat))+geom_density_2d()
+```
+
 ```{r}
 #dar<-lang%>%filter(year(lang$date)==2015)
 for (n in 2015:2018){
-  cat("Data for Year",n,"\n")
-  lang %>% 
-    filter(lang$date > as.POSIXct(as.Date(as.character(cat(n,"-01-01 01:00:00")))))%>%
-    filter(lang$date < as.POSIXct(as.Date(as.character(cat(n,"-12-31 23:59:00")))))
+  lower = as.POSIXct(as.Date(toString(paste(n,"-01-01 01:00:00",sep = ""))))
+  upper = as.POSIXct(as.Date(toString(paste(n,"-12-31 23:59:00",sep = ""))))
+  assign(paste("data_for_",n,sep = ""),lang%>%
+    filter(between(lang$date,lower,upper)))
 }
 
-ggplot(data=lang,aes(x=lng,y=lat))+geom_density_2d()
 ```
 
-
-
 ```{r warning=FALSE}
-setattr(lang, "class", c("data.table"))
-kde <- bkde2D(lang[ , list(lng, lat)],
-              bandwidth=c(.0045, .0068), gridsize = c(100,100))
-
-CrimeHeatMap <- raster(list(x=kde$x1 ,y=kde$x2 ,z = kde$fhat))
-
-CrimeHeatMap@data@values[which(CrimeHeatMap@data@values < 1)] <- NA
-
-palRaster <- colorNumeric("Spectral", domain = CrimeHeatMap@data@values, na.color = "transparent")
-
-leaflet() %>% addTiles() %>% 
-  addRasterImage(CrimeHeatMap, 
-                 colors = palRaster, 
-                 opacity = .8) %>%
-  addLegend(pal = palRaster, 
-            values = CrimeHeatMap@data@values, 
-            title = "Crime Heat Map")
+display_heatmap <- function(TABLE) {
+  setattr(lang, "class", c("data.table"))
+  kde <- bkde2D(TABLE[ , list(lng, lat)],
+                bandwidth=c(.0045, .0068), gridsize = c(100,100))
   
+  CrimeHeatMap <- raster(list(x=kde$x1 ,y=kde$x2 ,z = kde$fhat))
+  
+  CrimeHeatMap@data@values[which(CrimeHeatMap@data@values < 1)] <- NA
+  
+  palRaster <- colorNumeric("Spectral", domain = CrimeHeatMap@data@values, na.color = "transparent")
+  
+  leaflet() %>% addTiles() %>% 
+    addRasterImage(CrimeHeatMap, 
+                   colors = palRaster, 
+                   opacity = .8) %>%
+    addLegend(pal = palRaster, 
+              values = CrimeHeatMap@data@values, 
+              title = "Crime Heat Map")
+}
+data_for_2015
+
+display_heatmap(data_for_2015)
+
+
+
 ```
 
 
