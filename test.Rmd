@@ -3,14 +3,11 @@ title: "Final Project"
 author: "Philip Saroka"
 output: html_notebook
 ---
-```{r}
-#install.packages(c("cowplot", "googleway", "ggplot2", "ggrepel", 
-#"ggspatial", "libwgeom", "sf", "rnaturalearth", "rnaturalearthdata", 
-#"rworldxtra","ggmap","digest","glue","cowplot"))
-```
-```{r}
-#install.packages()
-```
+``{r}
+install.packages(c("cowplot", "googleway", "ggplot2", "ggrepel", 
+"ggspatial", "libwgeom", "sf", "rnaturalearth", "rnaturalearthdata", 
+"rworldxtra","ggmap","digest","glue","cowplot"))
+
 ```{r warning=TRUE}
 # clean up workspace environment
 rm(list = ls())
@@ -28,14 +25,12 @@ theme_set(theme_bw())
 library(sf)
 library(rnaturalearth)
 library(rnaturalearthdata)
-library(sp)
 library(rworldmap)
 library(rworldxtra)
 library(leaflet)
 library(data.table)
 library(rgdal)
 library(KernSmooth)
-library(raster)
 ```
 
 Tre Butler, Phil Saroka, Jessica Schick
@@ -86,16 +81,18 @@ Other data sources: Boston Weather Data
 ```{r message=FALSE, warning=FALSE}
 #creating the datasets
 boston_crime_statistics <- read_excel("crime.xlsx")
+boston_crime_statistics<-boston_crime_statistics%>%
+  rename("date"="OCCURRED_ON_DATE")%>%
+  rename("lng"="Long")%>%
+  rename("lat"="Lat")
 weather_data <- read_csv("weather data.csv")
 weather_data <- weather_data%>%
   dplyr::select(NAME,LATITUDE,LONGITUDE,DATE,PRCP, TAVG,SNOW)
 ```
 
 ```{r}
-boston_crime_statistics<-boston_crime_statistics%>%
-  rename("date"="OCCURRED_ON_DATE")%>%
-  rename("lng"="Long")%>%
-  rename("lat"="Lat")
+#yee<-boston_crime_statistics%>%
+#  mutate("new_date"=ymd(as.Date(date)))
 boston_crime_statistics
 ```
 ```{r}
@@ -121,13 +118,13 @@ location_of_incident
 ```{r}
 #date ranges
 first_date<-boston_crime_statistics%>%
-  dplyr::select(OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
-  arrange(OCCURRED_ON_DATE)%>%
+  dplyr::select(date,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
+  arrange(date)%>%
   head(1)
 
 last_date<-boston_crime_statistics%>%
-  dplyr::select(OCCURRED_ON_DATE,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
-  arrange(OCCURRED_ON_DATE)%>%
+  dplyr::select(date,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
+  arrange(date)%>%
   tail(1)
 first_date
 last_date
@@ -135,7 +132,7 @@ last_date
 
 ```{r}
 #number of day over which the data is recorded
-last_date[1, "OCCURRED_ON_DATE"]-first_date[1, "OCCURRED_ON_DATE"]
+last_date[1, "date"]-first_date[1, "date"]
 ```
 ```{r}
 small_data <- boston_crime_statistics%>%
@@ -166,8 +163,19 @@ lng_avg
 
 
 ```{r}
+#dar<-lang%>%filter(year(lang$date)==2015)
+for (n in 2015:2018){
+  cat("Data for Year",n,"\n")
+  lang %>% 
+    filter(lang$date > as.POSIXct(as.Date(as.character(cat(n,"-01-01 01:00:00")))))%>%
+    filter(lang$date < as.POSIXct(as.Date(as.character(cat(n,"-12-31 23:59:00")))))
+}
+
 ggplot(data=lang,aes(x=lng,y=lat))+geom_density_2d()
 ```
+
+
+
 ```{r warning=FALSE}
 setattr(lang, "class", c("data.table"))
 kde <- bkde2D(lang[ , list(lng, lat)],
@@ -175,16 +183,16 @@ kde <- bkde2D(lang[ , list(lng, lat)],
 
 CrimeHeatMap <- raster(list(x=kde$x1 ,y=kde$x2 ,z = kde$fhat))
 
-KernelDensityRaster@data@values[which(CrimeHeatMap@data@values < 1)] <- NA
+CrimeHeatMap@data@values[which(CrimeHeatMap@data@values < 1)] <- NA
 
 palRaster <- colorNumeric("Spectral", domain = CrimeHeatMap@data@values, na.color = "transparent")
 
 leaflet() %>% addTiles() %>% 
-  addRasterImage(KernelDensityRaster, 
+  addRasterImage(CrimeHeatMap, 
                  colors = palRaster, 
                  opacity = .8) %>%
   addLegend(pal = palRaster, 
-            values = KernelDensityRaster@data@values, 
+            values = CrimeHeatMap@data@values, 
             title = "Crime Heat Map")
   
 ```
