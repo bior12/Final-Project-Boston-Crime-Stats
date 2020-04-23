@@ -55,3 +55,19 @@ CrimeVsWeather <-
 ```
 
 ## Using date verbs to create data for our graphic
+```{r}
+CrimeVsWeather <- 
+  CrimeVsWeather %>%
+  group_by(TAVG) %>%
+  summarise(Total = n()) %>%
+  arrange(desc(Total))
+CrimeVsWeather
+```
+
+## Bar Graph Showing Avg Temperature Vs Crimes Committed
+```{r}
+CrimeVsWeather %>% 
+  ggplot(aes(x=TAVG,y=Total )) +
+  geom_bar(stat='identity',position='stack', width=.9) 
+```
+
