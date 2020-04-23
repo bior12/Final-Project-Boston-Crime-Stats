@@ -29,12 +29,8 @@ library(lubridate)
 library(readxl)
 library(ggplot2)
 theme_set(theme_bw())
-library(sf)
-library(rnaturalearth)
-library(rnaturalearthdata)
 library(sp)
 library(rworldmap)
-library(rworldxtra)
 library(leaflet)
 library(data.table)
 library(rgdal)
@@ -49,3 +45,13 @@ weather_data <- read_csv("weather data.csv")
 weather_data <- weather_data%>%
   dplyr::select(NAME,LATITUDE,LONGITUDE,DATE,PRCP, TAVG,SNOW)
 ```
+
+## Joining datasets to create CrimeVsWeather Table
+```{r}
+CrimeVsWeather <-
+  boston_crime_statistics %>%
+  mutate("DATE" = ymd(as.Date(OCCURRED_ON_DATE))) %>%
+  left_join(weather_data,"DATE")
+```
+
+## Using date verbs to create data for our graphic
