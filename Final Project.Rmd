@@ -34,11 +34,11 @@ library(raster)
 
 #Research Question:
 
-How have outside factors like weather and time affected the crime rates of Boston?
+How have outside factors like weather affected the crime rates of Boston?
 
 #Data Sources:
 
-##Where did you find them? (I don’t think we should just say Google)
+##Where did you find them?
 - Boston crime rates data - https://www.kaggle.com/ankkur13/boston-crime-data
 - Boston weather data - https://www.ncdc.noaa.gov/
 
