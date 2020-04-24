@@ -47,9 +47,8 @@ How have outside factors like weather and time affected the crime rates of Bosto
 - Boston weather data - The NOAA gathers it’s data from many sources including the World Meteorological Organization
 
 ##When & Why were they originally collected? 
-
-A) Boston crime rates data - The dataset started in 2015 and was originally collected to find trends in crime statistics.
-B) Boston weather data - The NOAA has kept weather statistics for many places for the past 30 years. They are collected for convenience to those who need to study trends in the weather.
+Boston crime rates data - The dataset started in 2015 and was originally collected to find trends in crime statistics.
+Boston weather data - The NOAA has kept weather statistics for many places for the past 30 years. They are collected for convenience to those who need to study trends in the weather.
 
 ##What does a case represent in each data source, and how many total cases are available?
 Boston crime rates data - each case represent an Incident Number and there are a total of 260,760 cases available to use
@@ -61,7 +60,7 @@ Boston weather data - Name, Latitude, Longitude, Date, Precipitation, Snow, Temp
 Plots, Summary Stats, and Observations
 
 ##TWO Data Sources (at least)
-Primary data:  Boston Crime Data 
+Primary data: Boston Crime Data 
 Other data sources: Boston Weather Data
 
 ```{r message=FALSE, warning=FALSE}
