@@ -121,6 +121,8 @@ lang<-location_of_incident%>%
   filter(lat>40)%>%filter(lng<(-70))
 ```
 
+## A Heat Map Showing Comparison Between Crime Rates And Temperature Patterns
+
 ```{r}
 for (n in 2015:2018){
   lower = as.POSIXct(as.Date(toString(paste(n,"-01-01 01:00:00",sep = ""))))
