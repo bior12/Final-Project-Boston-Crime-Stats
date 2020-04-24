@@ -30,6 +30,7 @@ library(data.table)
 library(rgdal)
 library(KernSmooth)
 library(raster)
+
 ```
 
 #Research Question:
@@ -73,17 +74,21 @@ boston_crime_statistics<-boston_crime_statistics%>%
 weather_data <- read_csv("weather data.csv")
 weather_data <- weather_data%>%
   dplyr::select(NAME,LATITUDE,LONGITUDE,DATE,PRCP, TAVG,SNOW)
+
 ```
 
 ## Joining datasets to create CrimeVsWeather Table
+
 ```{r}
 CrimeVsWeather <-
   boston_crime_statistics %>%
   mutate("DATE" = ymd(as.Date(date))) %>%
   left_join(weather_data,"DATE")
+
 ```
 
 ## Using date verbs to create data for our graphic
+
 ```{r}
 CrimeVsWeather <- 
   CrimeVsWeather %>%
@@ -91,9 +96,11 @@ CrimeVsWeather <-
   summarise(Total = n()) %>%
   arrange(desc(Total))
 CrimeVsWeather
+
 ```
 
 ## Bar Graph Showing Avg Temperature Vs Crimes Committed
+
 ```{r}
 CrimeVsWeather %>% 
   ggplot(aes(x=TAVG,y=Total/100 ,fill=Total),color=TAVG) +
@@ -101,6 +108,7 @@ CrimeVsWeather %>%
   geom_bar(stat='identity',position='stack', width=.9) +
   labs(y="Number of Crimes Committed (per 100)", x = "Average Day Temperature") + 
   theme(legend.position = "none")
+
 ```
 
 ```{r}
@@ -110,15 +118,19 @@ date_of_incident <- boston_crime_statistics%>%
 location_of_incident <- boston_crime_statistics%>%
   dplyr::select(INCIDENT_NUMBER,date,UCR_PART,STREET,lat,lng, Location)%>%
   arrange(date)
+
 ```
 
 ```{r}
 date_of_incident
+
 ```
+
 ```{r}
 lang<-location_of_incident%>%
   dplyr::select(date,lng,lat)%>%
   filter(lat>40)%>%filter(lng<(-70))
+
 ```
 
 ## A Heat Map Showing Comparison Between Crime Rates And Temperature Patterns
@@ -185,13 +197,14 @@ cat(cat("Difference between 2015 and 2016 is",difference(avg_2015,avg_2016),"\n"
     cat("Difference between 2017 and 2018 is",difference(avg_2017,avg_2018),"\n")
     )
 
-
 ```
+
 ```{r}
 display_heatmap(data_for_2015)
 display_heatmap(data_for_2016)
 display_heatmap(data_for_2017)
 display_heatmap(data_for_2018)
+
 ```
 
 Based on the 4 heat maps, we can clearly see that the data do not change much over the course of these years. The crime data seem to be pretty centralized in Boston as you can see that the highest amount at 300 is right on Boston.
