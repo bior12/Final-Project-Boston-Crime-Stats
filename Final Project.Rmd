@@ -53,12 +53,23 @@ Plots, Summary Stats, and Observations
 Primary data:  Boston Crime Data 
 Other data sources: Boston Weather Data
 
+```{r message=FALSE, warning=FALSE}
+#creating the datasets
+boston_crime_statistics <- read_excel("crime.xlsx")
+boston_crime_statistics<-boston_crime_statistics%>%
+  rename("date"="OCCURRED_ON_DATE")%>%
+  rename("lng"="Long")%>%
+  rename("lat"="Lat")
+weather_data <- read_csv("weather data.csv")
+weather_data <- weather_data%>%
+  dplyr::select(NAME,LATITUDE,LONGITUDE,DATE,PRCP, TAVG,SNOW)
+```
 
 ## Joining datasets to create CrimeVsWeather Table
 ```{r}
 CrimeVsWeather <-
   boston_crime_statistics %>%
-  mutate("DATE" = ymd(as.Date(OCCURRED_ON_DATE))) %>%
+  mutate("DATE" = ymd(as.Date(date))) %>%
   left_join(weather_data,"DATE")
 ```
 

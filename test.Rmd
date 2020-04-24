@@ -180,9 +180,9 @@ for (n in 2015:2018){
 
 ```
 
-```{r warning=FALSE}
+```{r}
 display_heatmap <- function(TABLE) {
-  setattr(lang, "class", c("data.table"))
+  setattr(TABLE, "class", c("data.table"))
   kde <- bkde2D(TABLE[ , list(lng, lat)],
                 bandwidth=c(.0045, .0068), gridsize = c(100,100))
   
@@ -200,11 +200,8 @@ display_heatmap <- function(TABLE) {
               values = CrimeHeatMap@data@values, 
               title = "Crime Heat Map")
 }
-data_for_2015
 
 display_heatmap(data_for_2015)
-
-
 
 ```
 
