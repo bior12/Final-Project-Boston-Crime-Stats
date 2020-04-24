@@ -32,7 +32,6 @@ library(KernSmooth)
 library(raster)
 ```
 
-Tre Butler, Phil Saroka, Jessica Schick
 #Research Question:
 
 How have outside factors like weather and time affected the crime rates of Boston?
