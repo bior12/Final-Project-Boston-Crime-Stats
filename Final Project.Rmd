@@ -98,8 +98,11 @@ CrimeVsWeather
 ## Bar Graph Showing Avg Temperature Vs Crimes Committed
 ```{r}
 CrimeVsWeather %>% 
-  ggplot(aes(x=TAVG,y=Total )) +
-  geom_bar(stat='identity',position='stack', width=.9) 
+  ggplot(aes(x=TAVG,y=Total/100 ,fill=Total),color=TAVG) +
+  ggtitle("Number of Crimes Committed vs \nAverage Day Temperature") +
+  geom_bar(stat='identity',position='stack', width=.9) +
+  labs(y="Number of Crimes Committed (per 100)", x = "Average Day Temperature") + 
+  theme(legend.position = "none")
 ```
 
 ```{r}
@@ -121,7 +124,6 @@ lang<-location_of_incident%>%
 ```
 
 ```{r}
-#dar<-lang%>%filter(year(lang$date)==2015)
 for (n in 2015:2018){
   lower = as.POSIXct(as.Date(toString(paste(n,"-01-01 01:00:00",sep = ""))))
   upper = as.POSIXct(as.Date(toString(paste(n,"-12-31 23:59:00",sep = ""))))
@@ -151,19 +153,46 @@ display_heatmap <- function(TABLE) {
               values = CrimeHeatMap@data@values, 
               title = "Crime Heat Map")
 }
+
 ```
 
 ```{r}
+average_lat_lng <- function(t) {
+  newlist <- list("alat" = mean(t$lat, na.rm=T), "alng" = mean(t$lng, na.rm=T))
+  return(newlist)
+}
+paste_faster <- function(t) {
+  return <- paste("(",round(t$alat,5),",",round(t$alng,5),")",sep="")
+}
+difference <- function(t1,t2){
+  return <- paste("(",round(t2$alat-t1$alat,8),",",round(t2$alng-t1$alng,8),")",sep="")
+}
+
+```
+
+```{r}
+avg_2015<-average_lat_lng(data_for_2015)
+avg_2016<-average_lat_lng(data_for_2016)
+avg_2017<-average_lat_lng(data_for_2017)
+avg_2018<-average_lat_lng(data_for_2018)
+cat(cat("The average latitude and longitude for 2015 is:",paste_faster(avg_2015),"\n"),
+    cat("The average latitude and longitude for 2016 is:",paste_faster(avg_2016),"\n"),
+    cat("The average latitude and longitude for 2017 is:",paste_faster(avg_2017),"\n"),
+    cat("The average latitude and longitude for 2018 is:",paste_faster(avg_2018),"\n")
+    )
+cat(cat("Difference between 2015 and 2016 is",difference(avg_2015,avg_2016),"\n"),
+    cat("Difference between 2016 and 2017 is",difference(avg_2016,avg_2017),"\n"),
+    cat("Difference between 2017 and 2018 is",difference(avg_2017,avg_2018),"\n")
+    )
+
+
+```
+```{r}
 display_heatmap(data_for_2015)
-```
-```{r}
 display_heatmap(data_for_2016)
-```
-```{r}
 display_heatmap(data_for_2017)
-```
-```{r}
 display_heatmap(data_for_2018)
 ```
+
 
 
