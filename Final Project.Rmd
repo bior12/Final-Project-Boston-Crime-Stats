@@ -151,12 +151,19 @@ display_heatmap <- function(TABLE) {
               values = CrimeHeatMap@data@values, 
               title = "Crime Heat Map")
 }
+```
 
+```{r}
 display_heatmap(data_for_2015)
+```
+```{r}
 display_heatmap(data_for_2016)
+```
+```{r}
 display_heatmap(data_for_2017)
+```
+```{r}
 display_heatmap(data_for_2018)
-
 ```
 
 
