@@ -18,6 +18,18 @@ library(tidyverse)
 library(forcats)
 library(lubridate)
 library(readxl)
+library(ggplot2)
+theme_set(theme_bw())
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(rworldmap)
+library(rworldxtra)
+library(leaflet)
+library(data.table)
+library(rgdal)
+library(KernSmooth)
+library(raster)
 ```
 
 Tre Butler, Phil Saroka, Jessica Schick
@@ -89,3 +101,62 @@ CrimeVsWeather %>%
   ggplot(aes(x=TAVG,y=Total )) +
   geom_bar(stat='identity',position='stack', width=.9) 
 ```
+
+```{r}
+date_of_incident <- boston_crime_statistics%>%
+  dplyr::select(INCIDENT_NUMBER,date,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
+  arrange(date)
+location_of_incident <- boston_crime_statistics%>%
+  dplyr::select(INCIDENT_NUMBER,date,UCR_PART,STREET,lat,lng, Location)%>%
+  arrange(date)
+```
+
+```{r}
+date_of_incident
+```
+```{r}
+lang<-location_of_incident%>%
+  dplyr::select(date,lng,lat)%>%
+  filter(lat>40)%>%filter(lng<(-70))
+```
+
+```{r}
+#dar<-lang%>%filter(year(lang$date)==2015)
+for (n in 2015:2018){
+  lower = as.POSIXct(as.Date(toString(paste(n,"-01-01 01:00:00",sep = ""))))
+  upper = as.POSIXct(as.Date(toString(paste(n,"-12-31 23:59:00",sep = ""))))
+  assign(paste("data_for_",n,sep = ""),lang%>%
+    filter(between(lang$date,lower,upper)))
+}
+
+```
+
+```{r}
+display_heatmap <- function(TABLE) {
+  setattr(TABLE, "class", c("data.table"))
+  kde <- bkde2D(TABLE[ , list(lng, lat)],
+                bandwidth=c(.0045, .0068), gridsize = c(100,100))
+  
+  CrimeHeatMap <- raster(list(x=kde$x1 ,y=kde$x2 ,z = kde$fhat))
+  
+  CrimeHeatMap@data@values[which(CrimeHeatMap@data@values < 1)] <- NA
+  
+  palRaster <- colorNumeric("Spectral", domain = CrimeHeatMap@data@values, na.color = "transparent")
+  
+  leaflet() %>% addTiles() %>% 
+    addRasterImage(CrimeHeatMap, 
+                   colors = palRaster, 
+                   opacity = .8) %>%
+    addLegend(pal = palRaster, 
+              values = CrimeHeatMap@data@values, 
+              title = "Crime Heat Map")
+}
+
+display_heatmap(data_for_2015)
+display_heatmap(data_for_2016)
+display_heatmap(data_for_2017)
+display_heatmap(data_for_2018)
+
+```
+
+

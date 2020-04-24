@@ -3,10 +3,6 @@ title: "Final Project"
 author: "Philip Saroka"
 output: html_notebook
 ---
-``{r}
-install.packages(c("cowplot", "googleway", "ggplot2", "ggrepel", 
-"ggspatial", "libwgeom", "sf", "rnaturalearth", "rnaturalearthdata", 
-"rworldxtra","ggmap","digest","glue","cowplot"))
 
 ```{r warning=TRUE}
 # clean up workspace environment
@@ -90,16 +86,6 @@ weather_data <- read_csv("weather data.csv")
 weather_data <- weather_data%>%
   dplyr::select(NAME,LATITUDE,LONGITUDE,DATE,PRCP, TAVG,SNOW)
 ```
-
-```{r}
-#yee<-boston_crime_statistics%>%
-#  mutate("new_date"=ymd(as.Date(date)))
-boston_crime_statistics
-```
-```{r}
-weather_data
-```
-
 ```{r}
 date_of_incident <- boston_crime_statistics%>%
   dplyr::select(INCIDENT_NUMBER,date,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
@@ -113,60 +99,10 @@ location_of_incident <- boston_crime_statistics%>%
 date_of_incident
 ```
 ```{r}
-location_of_incident
-```
-
-```{r}
-#date ranges
-first_date<-boston_crime_statistics%>%
-  dplyr::select(date,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
-  arrange(date)%>%
-  head(1)
-
-last_date<-boston_crime_statistics%>%
-  dplyr::select(date,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
-  arrange(date)%>%
-  tail(1)
-first_date
-last_date
-```
-
-```{r}
-#number of day over which the data is recorded
-last_date[1, "date"]-first_date[1, "date"]
-```
-```{r}
-small_data <- boston_crime_statistics%>%
-  group_by(OFFENSE_CODE)%>%
-  summarise(total = n())
-```
-```{r}
-ggplot(data=small_data,aes(x=OFFENSE_CODE,y=total))+geom_point()
-```
-In this graph we can see that there are clusters of offense codes that are more common that others
-
-```{r}
-location_of_incident
-```
-```{r}
 lang<-location_of_incident%>%
   dplyr::select(date,lng,lat)%>%
   filter(lat>40)%>%filter(lng<(-70))
 lang
-```
-```{r}
-lat_avg=mean(lang$lat,na.rm = T)
-lng_avg=mean(lang$lng,na.rm = T)
-lang
-lat_avg
-lng_avg
-```
-
-
-
-
-```{r}
-#ggplot(data=lang%>%head(10),aes(x=lng,y=lat))+geom_density_2d()
 ```
 
 ```{r}
@@ -202,6 +138,9 @@ display_heatmap <- function(TABLE) {
 }
 
 display_heatmap(data_for_2015)
+display_heatmap(data_for_2016)
+display_heatmap(data_for_2017)
+display_heatmap(data_for_2018)
 
 ```
 
