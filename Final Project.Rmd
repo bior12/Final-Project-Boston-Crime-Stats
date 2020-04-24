@@ -64,7 +64,7 @@ Plots, Summary Stats, and Observations
 Primary data: Boston Crime Data 
 Other data sources: Boston Weather Data
 
-```{r message=FALSE, warning=FALSE}
+```{r table creation, message=FALSE, warning=FALSE}
 #creating the datasets
 boston_crime_statistics <- read_excel("crime.xlsx")
 boston_crime_statistics<-boston_crime_statistics%>%
@@ -79,7 +79,7 @@ weather_data <- weather_data%>%
 
 ## Joining datasets to create CrimeVsWeather Table
 
-```{r}
+```{r left join}
 CrimeVsWeather <-
   boston_crime_statistics %>%
   mutate("DATE" = ymd(as.Date(date))) %>%
@@ -89,7 +89,7 @@ CrimeVsWeather <-
 
 ## Using date verbs to create data for our graphic
 
-```{r}
+```{r creation of crimes v weather table}
 CrimeVsWeather <- 
   CrimeVsWeather %>%
   group_by(TAVG) %>%
@@ -101,7 +101,7 @@ CrimeVsWeather
 
 ## Bar Graph Showing Avg Temperature Vs Crimes Committed
 
-```{r}
+```{r creation of ggplot}
 CrimeVsWeather %>% 
   ggplot(aes(x=TAVG,y=Total/100 ,fill=Total),color=TAVG) +
   ggtitle("Number of Crimes Committed vs \nAverage Day Temperature") +
@@ -112,21 +112,12 @@ CrimeVsWeather %>%
 ```
 
 ```{r}
-date_of_incident <- boston_crime_statistics%>%
-  dplyr::select(INCIDENT_NUMBER,date,YEAR,MONTH,DAY_OF_WEEK,HOUR)%>%
-  arrange(date)
 location_of_incident <- boston_crime_statistics%>%
   dplyr::select(INCIDENT_NUMBER,date,UCR_PART,STREET,lat,lng, Location)%>%
   arrange(date)
-
 ```
 
-```{r}
-date_of_incident
-
-```
-
-```{r}
+```{r filtering unused data}
 lang<-location_of_incident%>%
   dplyr::select(date,lng,lat)%>%
   filter(lat>40)%>%filter(lng<(-70))
@@ -135,7 +126,7 @@ lang<-location_of_incident%>%
 
 ## A Heat Map Showing Comparison Between Crime Rates And Temperature Patterns
 
-```{r}
+```{r for loop}
 for (n in 2015:2018){
   lower = as.POSIXct(as.Date(toString(paste(n,"-01-01 01:00:00",sep = ""))))
   upper = as.POSIXct(as.Date(toString(paste(n,"-12-31 23:59:00",sep = ""))))
@@ -145,7 +136,7 @@ for (n in 2015:2018){
 
 ```
 
-```{r}
+```{r function}
 display_heatmap <- function(TABLE) {
   setattr(TABLE, "class", c("data.table"))
   kde <- bkde2D(TABLE[ , list(lng, lat)],
@@ -168,7 +159,7 @@ display_heatmap <- function(TABLE) {
 
 ```
 
-```{r}
+```{r more functions}
 average_lat_lng <- function(t) {
   newlist <- list("alat" = mean(t$lat, na.rm=T), "alng" = mean(t$lng, na.rm=T))
   return(newlist)
@@ -182,7 +173,7 @@ difference <- function(t1,t2){
 
 ```
 
-```{r}
+```{r info for multiple years}
 avg_2015<-average_lat_lng(data_for_2015)
 avg_2016<-average_lat_lng(data_for_2016)
 avg_2017<-average_lat_lng(data_for_2017)
@@ -199,7 +190,7 @@ cat(cat("Difference between 2015 and 2016 is",difference(avg_2015,avg_2016),"\n"
 
 ```
 
-```{r}
+```{r heatmap calls}
 display_heatmap(data_for_2015)
 display_heatmap(data_for_2016)
 display_heatmap(data_for_2017)
