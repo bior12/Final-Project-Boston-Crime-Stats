@@ -6,9 +6,9 @@ output: html_notebook
 ---
 
 ```{r}
-install.packages(c("cowplot", "googleway", "ggplot2", "ggrepel", 
-"ggspatial", "libwgeom", "sf", "rnaturalearth", "rnaturalearthdata", 
-"rworldxtra","ggmap","digest","glue","cowplot"))
+#install.packages(c("cowplot", "googleway", "ggplot2", "ggrepel", 
+#"ggspatial", "libwgeom", "sf", "rnaturalearth", "rnaturalearthdata", 
+#"rworldxtra","ggmap","digest","glue","cowplot"))
 ```
 
 ## Front Matter
@@ -69,7 +69,7 @@ Plots, Summary Stats, and Observations
 Primary data: Boston Crime Data 
 Other data sources: Boston Weather Data
 
-```{r table creation, message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r table creation, message=FALSE, warning=FALSE, paged.print=FALSE, results = 'hide'}
 #creating the datasets
 boston_crime_statistics <- read_excel("crime.xlsx")
 boston_crime_statistics<-boston_crime_statistics%>%
