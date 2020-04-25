@@ -67,14 +67,6 @@ Plots, Summary Stats, and Observations
 Primary data:  Boston Crime Data 
 Other data sources: Boston Weather Data
 
-
-
-
-
-
-
-
-
 ```{r message=FALSE, warning=FALSE}
 #creating the datasets
 boston_crime_statistics <- read_excel("crime.xlsx")
