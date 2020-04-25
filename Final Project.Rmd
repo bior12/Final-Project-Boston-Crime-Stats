@@ -162,20 +162,20 @@ display_heatmap <- function(TABLE) {
 
 ```{r more functions}
 average_lat_lng <- function(t) {
-  newlist <- list("alat" = mean(t$lat, na.rm=T), "alng" = mean(t$lng, na.rm=T))
-  return(newlist)
+  newlist <- list("alat" = mean(t$lat, na.rm=T), "alng" = mean(t$lng, na.rm=T)) 
+  return(newlist) #returns both the mean latitude and longitude found in the given datatable
 }
 paste_faster <- function(t) {
-  return <- paste("(",round(t$alat,5),",",round(t$alng,5),")",sep="")
+  return <- paste("(",round(t$alat,5),",",round(t$alng,5),")",sep="") #returns the nice looking lat / lng in a pair of numbers
 }
 difference <- function(t1,t2){
-  return <- paste("(",round(t2$alat-t1$alat,8),",",round(t2$alng-t1$alng,8),")",sep="")
+  return <- paste("(",round(t2$alat-t1$alat,8),",",round(t2$alng-t1$alng,8),")",sep="") # returns the differences between two datasets
 }
 
 ```
 
 ```{r info for multiple years}
-avg_2015<-average_lat_lng(data_for_2015)
+avg_2015<-average_lat_lng(data_for_2015) #a series of function calls
 avg_2016<-average_lat_lng(data_for_2016)
 avg_2017<-average_lat_lng(data_for_2017)
 avg_2018<-average_lat_lng(data_for_2018)
@@ -192,7 +192,7 @@ cat(cat("Difference between 2015 and 2016 is",difference(avg_2015,avg_2016),"\n"
 ```
 
 ```{r heatmap calls}
-display_heatmap(data_for_2015)
+display_heatmap(data_for_2015) #function call to make the heat maps for different datasets
 display_heatmap(data_for_2016)
 display_heatmap(data_for_2017)
 display_heatmap(data_for_2018)
