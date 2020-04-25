@@ -4,6 +4,12 @@ author: "Philip Saroka"
 output: html_notebook
 ---
 
+```{r}
+#install.packages(c("cowplot", "googleway", "ggplot2", "ggrepel", 
+#"ggspatial", "libwgeom", "sf", "rnaturalearth", "rnaturalearthdata", 
+#"rworldxtra","ggmap","digest","glue","cowplot"))
+```
+
 ```{r warning=TRUE}
 # clean up workspace environment
 rm(list = ls())
