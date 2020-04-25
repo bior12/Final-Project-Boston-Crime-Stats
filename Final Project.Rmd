@@ -34,11 +34,7 @@ library(raster)
 
 #Research Question:
 
-<<<<<<< HEAD
-How have outside factors like weather affected the distribution of crime rates of Boston?
-=======
 How have outside factors like weather and time affected the distribution of crime rates in Boston?
->>>>>>> 4e885b3847a35704d898c0bd72066618543c5441
 
 #Data Sources:
 
