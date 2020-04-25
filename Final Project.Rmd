@@ -64,7 +64,7 @@ Plots, Summary Stats, and Observations
 Primary data: Boston Crime Data 
 Other data sources: Boston Weather Data
 
-```{r table creation, message=FALSE, warning=FALSE}
+```{r table creation, message=FALSE, warning=FALSE, paged.print=FALSE}
 #creating the datasets
 boston_crime_statistics <- read_excel("crime.xlsx")
 boston_crime_statistics<-boston_crime_statistics%>%
@@ -103,24 +103,24 @@ CrimeVsWeather
 
 ```{r creation of ggplot}
 CrimeVsWeather %>% 
-  ggplot(aes(x=TAVG,y=Total/100 ,fill=Total),color=TAVG) +
+  ggplot(aes(x=TAVG,y=Total/100 ,fill=Total),color=TAVG) + #sets the plot
   ggtitle("Number of Crimes Committed vs \nAverage Day Temperature") +
   geom_bar(stat='identity',position='stack', width=.9) +
   labs(y="Number of Crimes Committed (per 100)", x = "Average Day Temperature") + 
-  theme(legend.position = "none")
+  theme(legend.position = "none") #removes the key to make the graph look better
 
 ```
 
 ```{r}
 location_of_incident <- boston_crime_statistics%>%
   dplyr::select(INCIDENT_NUMBER,date,UCR_PART,STREET,lat,lng, Location)%>%
-  arrange(date)
+  arrange(date) #selects the specific vaiables that we are going to be using
 ```
 
 ```{r filtering unused data}
 lang<-location_of_incident%>%
   dplyr::select(date,lng,lat)%>%
-  filter(lat>40)%>%filter(lng<(-70))
+  filter(lat>40)%>%filter(lng<(-70)) #filters out any unusable data
 
 ```
 
