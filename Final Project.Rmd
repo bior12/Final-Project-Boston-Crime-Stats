@@ -124,6 +124,8 @@ lang<-location_of_incident%>%
 
 ```
 
+The bar graph is skewed left, with more crimes in the 65-80 degree range for temperature and the highest spike around 75 degrees. Based on the graph, we can see that there does appear to be a trend between average temperature and crimes committed. However, we do not believe that we can conclude causation because there may be many third party variables contributing to this apparent relationship.
+
 ## A Heat Map Showing Comparison Between Crime Rates And Temperature Patterns
 
 ```{r for loop}
