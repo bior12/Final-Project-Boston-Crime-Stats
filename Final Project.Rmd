@@ -198,5 +198,5 @@ display_heatmap(data_for_2018)
 
 ```
 
-Based on the 4 heat maps, we can clearly see that the data do not change much over the course of these years. The crime data seem to be pretty centralized in Boston as you can see that the highest amount at 300 is right on Boston.
+Based on the 4 heat maps, we can clearly see that the data do not change much over the course of these years. The crime data seem to be pretty centralized in Boston which is further backed up by the difference in means of the latitude and longitudes per each year.
 
