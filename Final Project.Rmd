@@ -30,12 +30,11 @@ library(data.table)
 library(rgdal)
 library(KernSmooth)
 library(raster)
-
 ```
 
 #Research Question:
 
-How have outside factors like weather and time affected the distribution of crime rates of Boston?
+How have outside factors like weather and time affected the distribution of crime rates in Boston?
 
 #Data Sources:
 
@@ -110,6 +109,8 @@ CrimeVsWeather %>%
   theme(legend.position = "none") #removes the key to make the graph look better
 
 ```
+The bar graph is skewed left, with more crimes in the 65-80 degree range for temperature and the highest spike around 75 degrees. Based on the graph, we can see that there does appear to be a trend between average temperature and crimes committed. However, we do not believe that we can conclude causation because there may be many third party variables contributing to this apparent relationship.
+
 
 ```{r}
 location_of_incident <- boston_crime_statistics%>%
@@ -124,15 +125,13 @@ lang<-location_of_incident%>%
 
 ```
 
-The bar graph is skewed left, with more crimes in the 65-80 degree range for temperature and the highest spike around 75 degrees. Based on the graph, we can see that there does appear to be a trend between average temperature and crimes committed. However, we do not believe that we can conclude causation because there may be many third party variables contributing to this apparent relationship.
-
 ## A Heat Map Showing Comparison Between Crime Rates And Temperature Patterns
 
 ```{r for loop}
 for (n in 2015:2018){
-  lower = as.POSIXct(as.Date(toString(paste(n,"-01-01 01:00:00",sep = ""))))
-  upper = as.POSIXct(as.Date(toString(paste(n,"-12-31 23:59:00",sep = ""))))
-  assign(paste("data_for_",n,sep = ""),lang%>%
+  lower = as.POSIXct(as.Date(toString(paste(n,"-01-01 01:00:00",sep = "")))) #sets the lower and upper bounds for the range of the date
+  upper = as.POSIXct(as.Date(toString(paste(n,"-12-31 23:59:00",sep = "")))) #that will be pushed into the table
+  assign(paste("data_for_",n,sep = ""),lang%>% #assigns the data table name for each of the iterations of the for loop
     filter(between(lang$date,lower,upper)))
 }
 
@@ -140,17 +139,17 @@ for (n in 2015:2018){
 
 ```{r function}
 display_heatmap <- function(TABLE) {
-  setattr(TABLE, "class", c("data.table"))
-  kde <- bkde2D(TABLE[ , list(lng, lat)],
+  setattr(TABLE, "class", c("data.table")) #sets the table to be in the right class for use with the bkde2D function
+  kde <- bkde2D(TABLE[ , list(lng, lat)],  
                 bandwidth=c(.0045, .0068), gridsize = c(100,100))
   
-  CrimeHeatMap <- raster(list(x=kde$x1 ,y=kde$x2 ,z = kde$fhat))
+  CrimeHeatMap <- raster(list(x=kde$x1 ,y=kde$x2 ,z = kde$fhat)) #creates a RasterLayer object for the pixels
   
   CrimeHeatMap@data@values[which(CrimeHeatMap@data@values < 1)] <- NA
   
-  palRaster <- colorNumeric("Spectral", domain = CrimeHeatMap@data@values, na.color = "transparent")
+  palRaster <- colorNumeric("Spectral", domain = CrimeHeatMap@data@values, na.color = "transparent") #sets the color palette 
   
-  leaflet() %>% addTiles() %>% 
+  leaflet() %>% addTiles() %>%   #creates a leaflet object
     addRasterImage(CrimeHeatMap, 
                    colors = palRaster, 
                    opacity = .8) %>%
