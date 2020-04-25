@@ -5,6 +5,12 @@ author: "Tre Butler, Phil Saroka, Jessica Schick"
 output: html_notebook
 ---
 
+```{r}
+#install.packages(c("cowplot", "googleway", "ggplot2", "ggrepel", 
+#"ggspatial", "libwgeom", "sf", "rnaturalearth", "rnaturalearthdata", 
+#"rworldxtra","ggmap","digest","glue","cowplot"))
+```
+
 ## Front Matter
 
 ```{r}
